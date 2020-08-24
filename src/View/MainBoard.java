@@ -20,6 +20,7 @@ public class MainBoard {
 
     public final int LEFT_MARGIN = 0;
     public final int RIGHT_MARGIN = BOARD_WIDTH - TILE_WIDTH;
+    public final int BOTTOM_MARGIN = BOARD_HEIGHT - TILE_HEIGHT;
 
 
     public PieceAbstraction livePiece = null;

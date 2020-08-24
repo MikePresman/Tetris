@@ -87,10 +87,7 @@ public class SquarePiece extends PieceAbstraction {
 
     @Override
     public void updateBoardPosition() {
-        for (HashMap<Block, Object> block : this.pieceConstructed.blockContainer){
-            block.put(Block.Y_POSITION, (int) block.getOrDefault(Block.Y_POSITION, 0) + this.TILE_HEIGHT);
-        }
-
-
+       if (this.pieceInitalized)
+           super.downMovement();
     }
 }

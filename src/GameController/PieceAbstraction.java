@@ -64,11 +64,7 @@ public abstract class PieceAbstraction {
 
 
         //movement
-        for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).getOrDefault(Block.X_POSITION, 0) - this.TILE_WIDTH;
-            this.pieceConstructed.blockContainer.get(i).put(Block.X_POSITION, updatedX);
-        }
-        this.board.drawBoard();
+        genericMovement(Block.X_POSITION, - this.TILE_WIDTH);
     }
 
 
@@ -85,18 +81,33 @@ public abstract class PieceAbstraction {
 
 
         //movement
+        genericMovement(Block.X_POSITION, this.TILE_WIDTH);
+
+
+    }
+
+    public void downMovement(){
+        //Bounds check
+        for (HashMap<Block, Object> block : this.pieceConstructed.blockContainer){
+            if ((int) block.get(Block.Y_POSITION) + this.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
+                return;
+            }
+        }
+
+        //collision with board check
+
+        genericMovement(Block.Y_POSITION, this.TILE_HEIGHT);
+
+    }
+
+    public void genericMovement(Block blockPos, int movementAddition){
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).getOrDefault(Block.X_POSITION, 0) + this.TILE_WIDTH;
-            this.pieceConstructed.blockContainer.get(i).put(Block.X_POSITION, updatedX);
+            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).getOrDefault(blockPos, 0) + movementAddition;
+            this.pieceConstructed.blockContainer.get(i).put(blockPos, updatedX);
         }
         this.board.drawBoard();
-
-
     }
 
-    private void downMovement(){
-
-    }
 
     private void rotatePiece(){
 
