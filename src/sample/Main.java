@@ -31,15 +31,17 @@ public class Main extends Application {
 
         this.board = new MainBoard(canvas);
 
-
-
         primaryStage.show();
-
-
         Timer timer = new Timer();
-        timer.schedule(new GameLoop(), 0, 200);
+        timer.schedule(new GameLoop(), 0, 400);
 
+        scene.setOnKeyTyped(e->{
+            this.board.handleKeyPress(e.getCharacter());
+        });
     }
+
+
+
 
     private class GameLoop extends TimerTask {
         public synchronized void run() {

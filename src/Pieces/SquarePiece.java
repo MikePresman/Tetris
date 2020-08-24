@@ -3,6 +3,7 @@ package Pieces;
 import GameController.Block;
 import GameController.PieceAbstraction;
 import GameController.TetrisPiece;
+import View.MainBoard;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -20,6 +21,7 @@ public class SquarePiece extends PieceAbstraction {
         int tWidth = this.TILE_WIDTH;
         int tHeight = this.TILE_HEIGHT;
         Color c = this.color;
+
         this.topRightBlock = new HashMap<>(){
             {
                 put(Block.Y_POSITION, 0);
@@ -61,7 +63,6 @@ public class SquarePiece extends PieceAbstraction {
         };
 
 
-
         return new ArrayList<>(){
             {
                 add(topRightBlock);
@@ -72,11 +73,13 @@ public class SquarePiece extends PieceAbstraction {
         };
     }
 
-    public SquarePiece(int TILE_WIDTH, int TILE_HEIGHT, Pane canvas){
+    public SquarePiece(int TILE_WIDTH, int TILE_HEIGHT, MainBoard board, Pane canvas){
         this.canvas = canvas;
         this.TILE_HEIGHT = TILE_HEIGHT;
         this.TILE_WIDTH = TILE_WIDTH;
         this.color = Color.RED;
+        this.board = board;
+        this.pieceInitalized = true;
         ArrayList<HashMap<Block,Object>> pieces = this.initializePieces();
 
         this.pieceConstructed = new TetrisPiece(4, pieces, this.color);

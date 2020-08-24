@@ -18,11 +18,12 @@ public class MainBoard {
     public final int TILE_WIDTH = BOARD_WIDTH / 10;
     public final int TILE_HEIGHT = BOARD_HEIGHT / 16;
 
+    public final int LEFT_MARGIN = 0;
+    public final int RIGHT_MARGIN = BOARD_WIDTH - TILE_WIDTH;
+
 
     public PieceAbstraction livePiece = null;
-
-
-
+    public final ArrayList<Character> VALID_KEYS = new ArrayList<>(){{ add('W'); add('A'); add('S'); add('D'); } };
 
 
 
@@ -30,9 +31,17 @@ public class MainBoard {
         this.canvas = canvas;
     }
 
+
+    public void handleKeyPress(String keyPressed){
+        keyPressed = keyPressed.toUpperCase();
+        if (this.livePiece != null && this.VALID_KEYS.contains(keyPressed.charAt(0))){
+            System.out.println(keyPressed.charAt(0));
+            this.livePiece.movementHandler(keyPressed);
+        }
+    }
+
     public void drawBoard(){
         Platform.runLater(() -> {
-
             this.canvas.getChildren().clear();
 
             int yPosition = 0;
@@ -51,6 +60,9 @@ public class MainBoard {
                 }
                 yPosition += TILE_HEIGHT;
             }
+
+
+
 
             drawPiece();
         });
@@ -74,7 +86,7 @@ public class MainBoard {
 
     public void update(){
         if (this.livePiece == null){
-            this.livePiece = new SquarePiece(this.TILE_WIDTH, this.TILE_HEIGHT, this.canvas);
+            this.livePiece = new SquarePiece(this.TILE_WIDTH, this.TILE_HEIGHT, this, this.canvas);
         }
 
         drawBoard();
