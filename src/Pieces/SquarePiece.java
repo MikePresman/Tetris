@@ -30,11 +30,44 @@ public class SquarePiece extends PieceAbstraction {
             }
         };
 
-        this.topLeftBlock = new HashMap<>()
+        this.topLeftBlock = new HashMap<>(){
+            {
+                put(Block.Y_POSITION, 0);
+                put(Block.X_POSITION, tWidth * 4);
+                put(Block.WIDTH, tWidth);
+                put(Block.HEIGHT, tHeight);
+                put(Block.COLOR, c);
+            }
+        };
+
+        this.bottomLeftBlock = new HashMap<>(){
+            {
+                put(Block.Y_POSITION, tHeight);
+                put(Block.X_POSITION, tWidth * 4);
+                put(Block.WIDTH, tWidth);
+                put(Block.HEIGHT, tHeight);
+                put(Block.COLOR, c);
+            }
+        };
+
+        this.bottomRightBlock = new HashMap<>(){
+            {
+                put(Block.Y_POSITION, tHeight);
+                put(Block.X_POSITION, tWidth * 5);
+                put(Block.WIDTH, tWidth);
+                put(Block.HEIGHT, tHeight);
+                put(Block.COLOR, c);
+            }
+        };
+
+
 
         return new ArrayList<>(){
             {
                 add(topRightBlock);
+                add(topLeftBlock);
+                add(bottomLeftBlock);
+                add(bottomRightBlock);
             }
         };
     }
