@@ -8,11 +8,6 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class RotationProperties{
-    boolean isRotatable;
-    Block axisOfRotation;
-}
-
 public abstract class PieceAbstraction {
     public TetrisPiece pieceConstructed;
     public boolean pieceInitalized = false;
@@ -90,6 +85,7 @@ public abstract class PieceAbstraction {
         //Bounds check
         for (HashMap<Block, Object> block : this.pieceConstructed.blockContainer){
             if ((int) block.get(Block.Y_POSITION) + this.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
+                this.hitBottom = true;
                 return;
             }
         }
@@ -97,7 +93,6 @@ public abstract class PieceAbstraction {
         //collision with board check
 
         genericMovement(Block.Y_POSITION, this.TILE_HEIGHT);
-
     }
 
     public void genericMovement(Block blockPos, int movementAddition){

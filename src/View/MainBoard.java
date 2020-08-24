@@ -22,7 +22,6 @@ public class MainBoard {
     public final int RIGHT_MARGIN = BOARD_WIDTH - TILE_WIDTH;
     public final int BOTTOM_MARGIN = BOARD_HEIGHT - TILE_HEIGHT;
 
-
     public PieceAbstraction livePiece = null;
     public final ArrayList<Character> VALID_KEYS = new ArrayList<>(){{ add('W'); add('A'); add('S'); add('D'); } };
 
@@ -90,7 +89,20 @@ public class MainBoard {
             this.livePiece = new SquarePiece(this.TILE_WIDTH, this.TILE_HEIGHT, this, this.canvas);
         }
 
-        drawBoard();
+        /*add later for random pieces
+          if (!this.firstPieceSelected) {
+        piece = this.getPiece();
+      } else {
+        piece = this.nextPiece;
+      }
+         */
+
+        if (!this.livePiece.hitBottom)
+            drawBoard();
+        //TODO : BOARDMATRIX
+        if (this.livePiece.hitBottom){
+            this.livePiece = null;
+        }
 
 
 

@@ -2,6 +2,7 @@ package Pieces;
 
 import GameController.Block;
 import GameController.PieceAbstraction;
+import GameController.RotationProperties;
 import GameController.TetrisPiece;
 import View.MainBoard;
 import javafx.scene.layout.Pane;
@@ -81,6 +82,7 @@ public class SquarePiece extends PieceAbstraction {
         this.board = board;
         this.pieceInitalized = true;
         ArrayList<HashMap<Block,Object>> pieces = this.initializePieces();
+        this.pieceRotationProperties = new RotationProperties(false, null);
 
         this.pieceConstructed = new TetrisPiece(4, pieces, this.color);
     }
