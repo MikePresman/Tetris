@@ -7,10 +7,10 @@ import javafx.scene.paint.Color;
 
 public class TetrisPiece{
     public int amountOfBlocks;
-    public ArrayList<HashMap<Block, Object>> blockContainer;
+    public ArrayList<Block> blockContainer;
     public Color color;
 
-    public TetrisPiece(int amountOfBlocks, ArrayList<HashMap<Block,Object>> blockContainer, Color color){
+    public TetrisPiece(int amountOfBlocks, ArrayList<Block> blockContainer, Color color){
         this.amountOfBlocks = amountOfBlocks;
         this.blockContainer = blockContainer;
         this.color = color;

@@ -60,20 +60,17 @@ public class MainBoard {
                 }
                 yPosition += TILE_HEIGHT;
             }
-
-
-
-
+            
             drawPiece();
         });
     }
 
     public void drawPiece(){
-        for (HashMap<Block, Object> block : this.livePiece.pieceConstructed.blockContainer){
-            int yPosition = (int) block.get(Block.Y_POSITION);
-            int xPosition = (int) block.get(Block.X_POSITION);
-            int width = (int) block.get(Block.WIDTH);
-            int height = (int) block.get(Block.HEIGHT);
+        for (Block block : this.livePiece.pieceConstructed.blockContainer){
+            int yPosition = (int) block.Y_POSITION;
+            int xPosition = (int) block.X_POSITION;
+            int width = (int) block.WIDTH;
+            int height = (int) block.HEIGHT;
             Color color = this.livePiece.color;
             Rectangle r = new Rectangle(xPosition, yPosition, width, height);
             r.setFill(color);

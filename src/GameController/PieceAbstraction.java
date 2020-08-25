@@ -23,7 +23,7 @@ public abstract class PieceAbstraction {
     public TetrisPiece getPiece(){return this.pieceConstructed;}
 
     public abstract void updateBoardPosition();
-    public abstract ArrayList<HashMap<Block, Object>> initializePieces();
+    public abstract ArrayList<Block> initializePieces();
 
 
     public void movementHandler(String key){
@@ -48,8 +48,8 @@ public abstract class PieceAbstraction {
     //TODO
     private void leftMovement(){
         //Bounds check
-        for (HashMap<Block, Object> block : this.pieceConstructed.blockContainer){
-            if ((int) block.get(Block.X_POSITION) - this.TILE_WIDTH < this.board.LEFT_MARGIN){
+        for (Block block : this.pieceConstructed.blockContainer){
+            if ((int) block.X_POSITION - this.TILE_WIDTH < this.board.LEFT_MARGIN){
                 return;
             }
         }
@@ -58,16 +58,24 @@ public abstract class PieceAbstraction {
         //Collision with board check
 
 
-        //movement
-        genericMovement(Block.X_POSITION, - this.TILE_WIDTH);
+
+        //MOVEMENT
+        for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
+            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).X_POSITION - this.TILE_WIDTH;
+            this.pieceConstructed.blockContainer.get(i).X_POSITION = updatedX;
+        }
+        this.board.drawBoard();
+
+
+
     }
 
 
     //TODO
     private void rightMovement(){
         //Bounds check
-        for (HashMap<Block, Object> block : this.pieceConstructed.blockContainer){
-            if ((int) block.get(Block.X_POSITION) + this.TILE_WIDTH > this.board.RIGHT_MARGIN){
+        for (Block block : this.pieceConstructed.blockContainer){
+            if ((int) block.X_POSITION + this.TILE_WIDTH > this.board.RIGHT_MARGIN){
                 return;
             }
         }
@@ -76,32 +84,33 @@ public abstract class PieceAbstraction {
 
 
         //movement
-        genericMovement(Block.X_POSITION, this.TILE_WIDTH);
+        for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
+            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).X_POSITION + this.TILE_WIDTH;
+            this.pieceConstructed.blockContainer.get(i).X_POSITION = updatedX;
+        }
+        this.board.drawBoard();
 
 
     }
 
     public void downMovement(){
         //Bounds check
-        for (HashMap<Block, Object> block : this.pieceConstructed.blockContainer){
-            if ((int) block.get(Block.Y_POSITION) + this.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
+        for (Block block : this.pieceConstructed.blockContainer){
+            if ((int) block.Y_POSITION + this.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
                 this.hitBottom = true;
                 return;
             }
         }
 
         //collision with board check
-
-        genericMovement(Block.Y_POSITION, this.TILE_HEIGHT);
-    }
-
-    public void genericMovement(Block blockPos, int movementAddition){
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).getOrDefault(blockPos, 0) + movementAddition;
-            this.pieceConstructed.blockContainer.get(i).put(blockPos, updatedX);
+            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).Y_POSITION + this.TILE_HEIGHT;
+            this.pieceConstructed.blockContainer.get(i).Y_POSITION = updatedX;
         }
         this.board.drawBoard();
     }
+
+
 
 
     private void rotatePiece(){

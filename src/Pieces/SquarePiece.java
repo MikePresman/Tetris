@@ -12,57 +12,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SquarePiece extends PieceAbstraction {
-    private HashMap<Block, Object> topRightBlock;
-    private HashMap<Block, Object> topLeftBlock;
-    private HashMap<Block, Object> bottomLeftBlock;
-    private HashMap<Block, Object> bottomRightBlock;
+    private Block topRightBlock;
+    private Block topLeftBlock;
+    private Block bottomLeftBlock;
+    private Block bottomRightBlock;
 
     @Override
-    public ArrayList<HashMap<Block, Object>> initializePieces(){
+    public ArrayList<Block> initializePieces(){
         int tWidth = this.TILE_WIDTH;
         int tHeight = this.TILE_HEIGHT;
         Color c = this.color;
 
-        this.topRightBlock = new HashMap<>(){
-            {
-                put(Block.Y_POSITION, 0);
-                put(Block.X_POSITION, tWidth * 5);
-                put(Block.WIDTH, tWidth);
-                put(Block.HEIGHT, tHeight);
-                put(Block.COLOR, c);
-            }
-        };
+        this.topRightBlock = new Block(0, tWidth * 5, tWidth, tHeight, c);
 
-        this.topLeftBlock = new HashMap<>(){
-            {
-                put(Block.Y_POSITION, 0);
-                put(Block.X_POSITION, tWidth * 4);
-                put(Block.WIDTH, tWidth);
-                put(Block.HEIGHT, tHeight);
-                put(Block.COLOR, c);
-            }
-        };
+        this.topLeftBlock = new Block(0, tWidth * 4, tWidth, tHeight, c);
 
-        this.bottomLeftBlock = new HashMap<>(){
-            {
-                put(Block.Y_POSITION, tHeight);
-                put(Block.X_POSITION, tWidth * 4);
-                put(Block.WIDTH, tWidth);
-                put(Block.HEIGHT, tHeight);
-                put(Block.COLOR, c);
-            }
-        };
+        this.bottomLeftBlock = new Block(tHeight, tWidth * 4, tWidth, tHeight, c);
 
-        this.bottomRightBlock = new HashMap<>(){
-            {
-                put(Block.Y_POSITION, tHeight);
-                put(Block.X_POSITION, tWidth * 5);
-                put(Block.WIDTH, tWidth);
-                put(Block.HEIGHT, tHeight);
-                put(Block.COLOR, c);
-            }
-        };
-
+        this.bottomRightBlock =  new Block(tHeight, tWidth * 5, tWidth, tHeight, c);
 
         return new ArrayList<>(){
             {
@@ -81,7 +48,7 @@ public class SquarePiece extends PieceAbstraction {
         this.color = Color.RED;
         this.board = board;
         this.pieceInitalized = true;
-        ArrayList<HashMap<Block,Object>> pieces = this.initializePieces();
+        ArrayList<Block> pieces = this.initializePieces();
         this.pieceRotationProperties = new RotationProperties(false, null);
 
         this.pieceConstructed = new TetrisPiece(4, pieces, this.color);
