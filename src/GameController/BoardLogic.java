@@ -32,17 +32,21 @@ public class BoardLogic {
 
         public void addPieceToBoard(PieceAbstraction piece){
             for (int i = 0; i < piece.pieceConstructed.amountOfBlocks; i++){
-                int matrixY = this.getMatrixY((int) piece.pieceConstructed.blockContainer.get(i).Y_POSITION);
-                int matrixX = this.getMatrixX((int) piece.pieceConstructed.blockContainer.get(i).X_POSITION);
+                int matrixY = this.getMatrixY(piece.pieceConstructed.blockContainer.get(i).Y_POSITION);
+                int matrixX = this.getMatrixX(piece.pieceConstructed.blockContainer.get(i).X_POSITION);
                 boardMatrix[matrixY][matrixX] = piece.pieceConstructed.blockContainer.get(i);
             }
         }
 
         public int getMatrixY(int canvasY){
-            return canvasY / this.TILE_HEIGHT;
+            return (int) canvasY / this.TILE_HEIGHT;
         }
 
         public int getMatrixX(int canvasX){
-            return canvasX / this.TILE_WIDTH;
+            return (int) canvasX / this.TILE_WIDTH;
+        }
+
+        public void handleRowCleanup(){
+
         }
 }

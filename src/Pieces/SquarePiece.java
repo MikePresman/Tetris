@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SquarePiece extends PieceAbstraction {
     private Block topRightBlock;
@@ -47,10 +46,11 @@ public class SquarePiece extends PieceAbstraction {
         this.TILE_WIDTH = TILE_WIDTH;
         this.color = Color.RED;
         this.board = board;
+
         this.pieceInitalized = true;
+
         ArrayList<Block> pieces = this.initializePieces();
         this.pieceRotationProperties = new RotationProperties(false, null);
-
         this.pieceConstructed = new TetrisPiece(4, pieces, this.color);
     }
 

@@ -15,8 +15,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main extends Application {
-    public int WIDTH = 450;
-    public int HEIGHT = 500;
+    public int WIDTH = 400;
+    public int HEIGHT = 400;
     Pane canvas = new Pane();
     MainBoard board;
 
@@ -31,13 +31,17 @@ public class Main extends Application {
 
         this.board = new MainBoard(canvas);
 
-        primaryStage.show();
         Timer timer = new Timer();
-        timer.schedule(new GameLoop(), 0, 400);
+        timer.schedule(new GameLoop(), 0, 500);
 
         scene.setOnKeyTyped(e->{
             this.board.handleKeyPress(e.getCharacter());
         });
+
+        primaryStage.show();
+
+
+;
     }
 
 

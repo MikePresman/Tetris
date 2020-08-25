@@ -4,9 +4,7 @@ import View.MainBoard;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public abstract class PieceAbstraction {
     public TetrisPiece pieceConstructed;
@@ -49,7 +47,7 @@ public abstract class PieceAbstraction {
     private void leftMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if ((int) block.X_POSITION - this.TILE_WIDTH < this.board.LEFT_MARGIN){
+            if (block.X_POSITION - this.TILE_WIDTH < this.board.LEFT_MARGIN){
                 return;
             }
         }
@@ -61,7 +59,7 @@ public abstract class PieceAbstraction {
 
         //MOVEMENT
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).X_POSITION - this.TILE_WIDTH;
+            int updatedX =  this.pieceConstructed.blockContainer.get(i).X_POSITION - this.TILE_WIDTH;
             this.pieceConstructed.blockContainer.get(i).X_POSITION = updatedX;
         }
         this.board.drawBoard();
@@ -75,7 +73,7 @@ public abstract class PieceAbstraction {
     private void rightMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if ((int) block.X_POSITION + this.TILE_WIDTH > this.board.RIGHT_MARGIN){
+            if (block.X_POSITION + this.TILE_WIDTH > this.board.RIGHT_MARGIN){
                 return;
             }
         }
@@ -85,7 +83,7 @@ public abstract class PieceAbstraction {
 
         //movement
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).X_POSITION + this.TILE_WIDTH;
+            int updatedX = this.pieceConstructed.blockContainer.get(i).X_POSITION + this.TILE_WIDTH;
             this.pieceConstructed.blockContainer.get(i).X_POSITION = updatedX;
         }
         this.board.drawBoard();
@@ -96,7 +94,7 @@ public abstract class PieceAbstraction {
     public void downMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if ((int) block.Y_POSITION + this.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
+            if (block.Y_POSITION + this.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
                 this.hitBottom = true;
                 return;
             }
@@ -104,10 +102,12 @@ public abstract class PieceAbstraction {
 
         //collision with board check
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = (int) this.pieceConstructed.blockContainer.get(i).Y_POSITION + this.TILE_HEIGHT;
+            int updatedX = this.pieceConstructed.blockContainer.get(i).Y_POSITION + this.TILE_HEIGHT;
             this.pieceConstructed.blockContainer.get(i).Y_POSITION = updatedX;
         }
+
         this.board.drawBoard();
+
     }
 
 

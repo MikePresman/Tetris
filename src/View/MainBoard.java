@@ -1,6 +1,7 @@
 package View;
 
 import GameController.Block;
+import GameController.BoardLogic;
 import GameController.PieceAbstraction;
 import Pieces.SquarePiece;
 import javafx.application.Platform;
@@ -13,8 +14,8 @@ import java.util.HashMap;
 
 public class MainBoard {
     private Pane canvas;
-    private int BOARD_HEIGHT = 500;
-    private int BOARD_WIDTH = 300;
+    private int BOARD_HEIGHT = 400; //keep this divisible by 16 nicely
+    private int BOARD_WIDTH = 250; //keep this divisble by 10 nicely
     public final int TILE_WIDTH = BOARD_WIDTH / 10;
     public final int TILE_HEIGHT = BOARD_HEIGHT / 16;
 
@@ -25,17 +26,18 @@ public class MainBoard {
     public PieceAbstraction livePiece = null;
     public final ArrayList<Character> VALID_KEYS = new ArrayList<>(){{ add('W'); add('A'); add('S'); add('D'); } };
 
+    public BoardLogic boardLogic;
 
 
     public MainBoard(Pane canvas) {
         this.canvas = canvas;
+        this.boardLogic = new BoardLogic(this.TILE_HEIGHT, this.TILE_WIDTH);
     }
 
 
     public void handleKeyPress(String keyPressed){
         keyPressed = keyPressed.toUpperCase();
         if (this.livePiece != null && this.VALID_KEYS.contains(keyPressed.charAt(0))){
-            System.out.println(keyPressed.charAt(0));
             this.livePiece.movementHandler(keyPressed);
         }
     }
@@ -60,20 +62,32 @@ public class MainBoard {
                 }
                 yPosition += TILE_HEIGHT;
             }
-            
+
             drawPiece();
+            drawBlocksSet();
+
         });
+    }
+
+    public void drawBlocksSet(){
+        for (int row = 0; row < this.boardLogic.boardMatrix.length; row++){
+            for (int tile = 0; tile < this.boardLogic.boardMatrix[row].length; tile++){
+                if (this.boardLogic.boardMatrix[row][tile] != null){
+                    Block b = this.boardLogic.boardMatrix[row][tile];
+                    Rectangle r = new Rectangle(b.X_POSITION,b.Y_POSITION,b.WIDTH,b.HEIGHT);
+                    r.setStroke(Color.WHITE);
+                    r.setFill(b.COLOR);
+                    this.canvas.getChildren().add(r);
+                }
+            }
+        }
     }
 
     public void drawPiece(){
         for (Block block : this.livePiece.pieceConstructed.blockContainer){
-            int yPosition = (int) block.Y_POSITION;
-            int xPosition = (int) block.X_POSITION;
-            int width = (int) block.WIDTH;
-            int height = (int) block.HEIGHT;
-            Color color = this.livePiece.color;
-            Rectangle r = new Rectangle(xPosition, yPosition, width, height);
-            r.setFill(color);
+            System.out.println(block.Y_POSITION);
+            Rectangle r = new Rectangle(block.X_POSITION, block.Y_POSITION, block.WIDTH, block.HEIGHT);
+            r.setFill(block.COLOR);
             r.setStroke(Color.WHITE);
             this.canvas.getChildren().add(r);
 
@@ -86,6 +100,7 @@ public class MainBoard {
             this.livePiece = new SquarePiece(this.TILE_WIDTH, this.TILE_HEIGHT, this, this.canvas);
         }
 
+        //TODO
         /*add later for random pieces
           if (!this.firstPieceSelected) {
         piece = this.getPiece();
@@ -95,15 +110,20 @@ public class MainBoard {
          */
 
         if (!this.livePiece.hitBottom)
-            drawBoard();
-        //TODO : BOARDMATRIX
+            this.livePiece.updateBoardPosition();
+
+
+
         if (this.livePiece.hitBottom){
+            this.boardLogic.addPieceToBoard(this.livePiece);
+            this.boardLogic.handleRowCleanup(); //TODO
             this.livePiece = null;
+            return;
         }
 
 
 
-        this.livePiece.updateBoardPosition();
+
     }
 
 
