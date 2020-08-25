@@ -99,7 +99,6 @@ public abstract class PieceAbstraction {
         }
 
 
-
         //movement
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
             int updatedX = this.pieceConstructed.blockContainer.get(i).X_POSITION + this.TILE_WIDTH;
