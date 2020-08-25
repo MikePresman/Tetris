@@ -39,11 +39,11 @@ public class BoardLogic {
         }
 
         public int getMatrixY(int canvasY){
-            return (int) canvasY / this.TILE_HEIGHT;
+            return canvasY / this.TILE_HEIGHT;
         }
 
         public int getMatrixX(int canvasX){
-            return (int) canvasX / this.TILE_WIDTH;
+            return canvasX / this.TILE_WIDTH;
         }
 
         public void handleRowCleanup(){

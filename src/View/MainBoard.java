@@ -39,6 +39,12 @@ public class MainBoard {
         keyPressed = keyPressed.toUpperCase();
         if (this.livePiece != null && this.VALID_KEYS.contains(keyPressed.charAt(0))){
             this.livePiece.movementHandler(keyPressed);
+            if (this.livePiece.hitBottom){
+                this.boardLogic.addPieceToBoard(this.livePiece);
+                this.boardLogic.handleRowCleanup();
+                this.livePiece = null;
+                return;
+            }
         }
     }
 
@@ -85,7 +91,6 @@ public class MainBoard {
 
     public void drawPiece(){
         for (Block block : this.livePiece.pieceConstructed.blockContainer){
-            System.out.println(block.Y_POSITION);
             Rectangle r = new Rectangle(block.X_POSITION, block.Y_POSITION, block.WIDTH, block.HEIGHT);
             r.setFill(block.COLOR);
             r.setStroke(Color.WHITE);
@@ -109,9 +114,9 @@ public class MainBoard {
       }
          */
 
+
         if (!this.livePiece.hitBottom)
             this.livePiece.updateBoardPosition();
-
 
 
         if (this.livePiece.hitBottom){
@@ -121,19 +126,5 @@ public class MainBoard {
             return;
         }
 
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
 }

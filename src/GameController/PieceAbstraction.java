@@ -52,8 +52,18 @@ public abstract class PieceAbstraction {
             }
         }
 
-
         //Collision with board check
+        for (Block b : this.pieceConstructed.blockContainer){
+            int blockRowIndex = board.boardLogic.getMatrixY(b.Y_POSITION);
+            int blockTileIndex = board.boardLogic.getMatrixX(b.X_POSITION);
+
+            if (board.boardLogic.boardMatrix[blockRowIndex][blockTileIndex - 1] != null){
+                return;
+            }
+        }
+
+
+
 
 
 
@@ -79,6 +89,15 @@ public abstract class PieceAbstraction {
         }
 
         //Collision with board check
+        for (Block b : this.pieceConstructed.blockContainer){
+            int blockRowIndex = board.boardLogic.getMatrixY(b.Y_POSITION);
+            int blockTileIndex = board.boardLogic.getMatrixX(b.X_POSITION);
+
+            if (board.boardLogic.boardMatrix[blockRowIndex][blockTileIndex + 1] != null){
+                return;
+            }
+        }
+
 
 
         //movement
@@ -100,11 +119,25 @@ public abstract class PieceAbstraction {
             }
         }
 
+        //Collision with board check
+        for (Block b : this.pieceConstructed.blockContainer){
+            int blockRowIndex = board.boardLogic.getMatrixY(b.Y_POSITION);
+            int blockTileIndex = board.boardLogic.getMatrixX(b.X_POSITION);
+
+            if (board.boardLogic.boardMatrix[blockRowIndex+1][blockTileIndex] != null){
+                this.hitBottom = true;
+                return;
+            }
+        }
+
+
         //collision with board check
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
             int updatedX = this.pieceConstructed.blockContainer.get(i).Y_POSITION + this.TILE_HEIGHT;
             this.pieceConstructed.blockContainer.get(i).Y_POSITION = updatedX;
         }
+
+
 
         this.board.drawBoard();
 
