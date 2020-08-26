@@ -103,6 +103,8 @@ public class MainBoard {
     public void update(){
         if (this.livePiece == null){
             this.livePiece = new SquarePiece(this.TILE_WIDTH, this.TILE_HEIGHT, this, this.canvas);
+            drawBoard();
+            return;
         }
 
         //TODO
