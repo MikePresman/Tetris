@@ -1,9 +1,7 @@
 package GameController;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public class BoardLogic {
     private int TILE_HEIGHT;
@@ -71,6 +69,23 @@ public class BoardLogic {
         }
 
 
+
+        public void countRowsFilled() {
+            int count = 0;
+            ArrayList<Integer> rows = new ArrayList<>();
+
+            for (int row = 0; row < this.boardMatrix.length; row++) {
+                for (int tile = 0; tile < this.boardMatrix[row].length; tile++) {
+                    if (this.boardMatrix[row][tile] == null) {
+                        break;
+                    } else if (tile == this.boardMatrix[row].length - 1) {
+                        count++;
+                        rows.add(row);
+                    }
+                }
+            }
+
+        }
     public void handleRowCleanup() {
         //Go through each row in the matrix. Check if row is full
         //store the row it is in an array
@@ -121,9 +136,9 @@ public class BoardLogic {
                 for (int rowToShift = rowsFilled.get(i) - 1; rowToShift >= 0; rowToShift--) { //rowToShift == 14
 
                     //iteration to check for consecutive rows
-                    int x = 0;
+                    int x = 1;
                     //Checking for consecutive rows
-                    while (rowToShift == rowsFilled.get(i + x)) {
+                    while (i + x < rowsFilled.size() &&  rowToShift == rowsFilled.get(i + x)) {
                         rowToShift--;
                         x++;
                     }
@@ -142,62 +157,3 @@ public class BoardLogic {
         }
     }
 }
-
-        /*
-        public void handleRowCleanup2() {
-            ArrayList<Integer> rowsFilled = new ArrayList<>();
-
-            for (int row = 0; row < this.boardMatrix.length; row++) {
-                for (int tile = 0; tile < this.boardMatrix[row].length; tile++) {
-                    if (this.boardMatrix[row][tile] == null) {
-                        break;
-                    } else if (tile == this.boardMatrix[row].length - 1) {
-                        rowsFilled.add(row);
-                    }
-                }
-            }
-
-            //setting row to null that was cleared
-            for (int row = 0; row < rowsFilled.size(); row++) {
-                for (int tile = 0; tile < this.boardMatrix[rowsFilled.get(row)].length; tile++) {
-                    this.boardMatrix[rowsFilled.get(row)][tile] = null;
-                }
-            }
-
-
-            rowsFilled.sort(new Comparator<Integer>() {
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return o2.intValue() - o1.intValue();
-                }
-            });
-
-
-            if (rowsFilled.size() > 0) {
-                for (int i = 0; i < rowsFilled.size(); i++) {
-                    for (int rowToShift = rowsFilled.get(i) - 1; rowToShift >= 0; rowToShift--) {
-
-                        int x = 1;
-
-                        while (rowToShift == rowsFilled.get(i + x)) {
-                            rowToShift--;
-                            x++;
-                        }
-
-                        for (int tile = 0; tile < this.boardMatrix[rowToShift].length; tile++) {
-                            if (this.boardMatrix[rowToShift][tile] != null) {
-                                Block temp = this.boardMatrix[rowToShift][tile];
-                                temp.Y_POSITION += x * this.TILE_HEIGHT;
-                                this.boardMatrix[rowToShift][tile] = null;
-
-                                this.boardMatrix[rowToShift + x][tile] = temp;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }*/
-
-
-
