@@ -11,9 +11,6 @@ public abstract class PieceAbstraction {
     public boolean pieceInitalized = false;
     public boolean hitBottom = false;
     public Color color;
-    public Pane canvas;
-    public int TILE_WIDTH;
-    public int TILE_HEIGHT;
     public MainBoard board;
 
     public RotationProperties pieceRotationProperties;
@@ -43,11 +40,10 @@ public abstract class PieceAbstraction {
         }
     }
 
-    //TODO
     private void leftMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if (block.X_POSITION - this.TILE_WIDTH < this.board.LEFT_MARGIN){
+            if (block.X_POSITION - this.board.TILE_WIDTH < this.board.LEFT_MARGIN){
                 return;
             }
         }
@@ -62,14 +58,9 @@ public abstract class PieceAbstraction {
             }
         }
 
-
-
-
-
-
         //MOVEMENT
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX =  this.pieceConstructed.blockContainer.get(i).X_POSITION - this.TILE_WIDTH;
+            int updatedX =  this.pieceConstructed.blockContainer.get(i).X_POSITION - this.board.TILE_WIDTH;
             this.pieceConstructed.blockContainer.get(i).X_POSITION = updatedX;
         }
         this.board.drawBoard();
@@ -78,12 +69,10 @@ public abstract class PieceAbstraction {
 
     }
 
-
-    //TODO
     private void rightMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if (block.X_POSITION + this.TILE_WIDTH > this.board.RIGHT_MARGIN){
+            if (block.X_POSITION + this.board.TILE_WIDTH > this.board.RIGHT_MARGIN){
                 return;
             }
         }
@@ -101,7 +90,7 @@ public abstract class PieceAbstraction {
 
         //movement
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = this.pieceConstructed.blockContainer.get(i).X_POSITION + this.TILE_WIDTH;
+            int updatedX = this.pieceConstructed.blockContainer.get(i).X_POSITION + this.board.TILE_WIDTH;
             this.pieceConstructed.blockContainer.get(i).X_POSITION = updatedX;
         }
         this.board.drawBoard();
@@ -112,7 +101,7 @@ public abstract class PieceAbstraction {
     public void downMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if (block.Y_POSITION + this.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
+            if (block.Y_POSITION + this.board.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
                 this.hitBottom = true;
                 return;
             }
@@ -132,7 +121,7 @@ public abstract class PieceAbstraction {
 
         //collision with board check
         for (int i = 0; i < this.pieceConstructed.amountOfBlocks; i++){
-            int updatedX = this.pieceConstructed.blockContainer.get(i).Y_POSITION + this.TILE_HEIGHT;
+            int updatedX = this.pieceConstructed.blockContainer.get(i).Y_POSITION + this.board.TILE_HEIGHT;
             this.pieceConstructed.blockContainer.get(i).Y_POSITION = updatedX;
         }
 
@@ -143,12 +132,67 @@ public abstract class PieceAbstraction {
     }
 
 
-
-
     private void rotatePiece(){
+        if (!this.pieceRotationProperties.isRotatable) return;
+        if (this.hitBottom) return;
+
+        //Making a copy incase rotation doesnt work out somewhere
+        //implicilty this is the type for which we copy although we abstractly define it as PieceAbstraction type
+
+        final TetrisPiece originalPiece = new TetrisPiece(this.pieceConstructed.amountOfBlocks, this.pieceConstructed.blockContainer, this.pieceConstructed.color);
+
+        for (Block block : this.pieceConstructed.blockContainer){
+            final int[] blockVector = this.board.boardLogic.vectorizePoint(block);
+            final int[] axisOfRotationBlockVector = this.board.boardLogic.vectorizePoint(this.pieceRotationProperties.axisOfRotation);
+
+            final int newVectorY = blockVector[0]  - axisOfRotationBlockVector[0];
+            final int newVectorX = blockVector[1]  - axisOfRotationBlockVector[1];
+            final int[] newVector = {newVectorY, newVectorX};
+
+            final int[] dotProduct = this.rotateBy90(newVector);
+            final int[] finalVector = {axisOfRotationBlockVector[0] + dotProduct[0], axisOfRotationBlockVector[1] + dotProduct[1]};
+
+            if (!this.matrixSpaceAvailable(finalVector)){
+                this.pieceConstructed = originalPiece;
+                return;
+            }
+
+            int canvasY = finalVector[0] * this.board.TILE_HEIGHT;
+            int canvasX = finalVector[1] * this.board.TILE_WIDTH;
+
+            if (canvasY > this.board.BOTTOM_MARGIN || canvasX < 0 || canvasX > this.board.RIGHT_MARGIN){
+                this.pieceConstructed = originalPiece;
+                return;
+            }
+
+            block.X_POSITION = canvasX;
+            block.Y_POSITION = canvasY;
+
+        }
+
+
+        this.board.drawBoard();
+    }
+
+    private int[] rotateBy90(int[] vector){
+        return new int[]{vector[0] * 0 + vector[1] * -1, vector[0] * 1 + vector[1] * 0};
 
     }
 
+    private boolean matrixSpaceAvailable(int[] matrixSpace){
+        int y = matrixSpace[0];
+        int x = matrixSpace[1];
+
+        try{
+            if (this.board.boardLogic.boardMatrix[y][x] != null){
+                return false;
+            }
+        }catch (ArrayIndexOutOfBoundsException e){
+            return false;
+        }
+
+        return true;
+    }
 
 
 }

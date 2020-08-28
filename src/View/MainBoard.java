@@ -3,22 +3,23 @@ package View;
 import GameController.Block;
 import GameController.BoardLogic;
 import GameController.PieceAbstraction;
-import Pieces.SquarePiece;
+import GameController.TetrisPiece;
+import Pieces.*;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainBoard {
-    private Pane canvas;
+    public Pane canvas;
     private int BOARD_HEIGHT = 400; //keep this divisible by 16 nicely
     private int BOARD_WIDTH = 250; //keep this divisble by 10 nicely
     public final int TILE_WIDTH = BOARD_WIDTH / 10;
     public final int TILE_HEIGHT = BOARD_HEIGHT / 16;
 
+    
     public final int LEFT_MARGIN = 0;
     public final int RIGHT_MARGIN = BOARD_WIDTH - TILE_WIDTH;
     public final int BOTTOM_MARGIN = BOARD_HEIGHT - TILE_HEIGHT;
@@ -102,10 +103,14 @@ public class MainBoard {
 
     public void update(){
         if (this.livePiece == null){
-            this.livePiece = new SquarePiece(this.TILE_WIDTH, this.TILE_HEIGHT, this, this.canvas);
+            this.livePiece = new TPiece(this);
             drawBoard();
             return;
         }
+
+
+        //TODO upcoming pieces
+        //TODO random
 
         //TODO
         /*add later for random pieces
@@ -123,7 +128,7 @@ public class MainBoard {
 
         if (this.livePiece.hitBottom){
             this.boardLogic.addPieceToBoard(this.livePiece);
-            this.boardLogic.handleRowCleanup(); //TODO
+            this.boardLogic.handleRowCleanup();
             this.livePiece = null;
             return;
         }

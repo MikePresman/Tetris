@@ -31,8 +31,11 @@ public class Main extends Application {
 
         this.board = new MainBoard(canvas);
 
+        //might have to put this in a new thread in order access it after the fact
         Timer timer = new Timer();
         timer.schedule(new GameLoop(), 0, 500);
+
+
 
         scene.setOnKeyTyped(e->{
             this.board.handleKeyPress(e.getCharacter());
@@ -41,8 +44,9 @@ public class Main extends Application {
         primaryStage.show();
 
 
-;
     }
+
+
 
 
 

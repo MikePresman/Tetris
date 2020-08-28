@@ -68,39 +68,7 @@ public class BoardLogic {
             return canvasX / this.TILE_WIDTH;
         }
 
-
-
-        public void countRowsFilled() {
-            int count = 0;
-            ArrayList<Integer> rows = new ArrayList<>();
-
-            for (int row = 0; row < this.boardMatrix.length; row++) {
-                for (int tile = 0; tile < this.boardMatrix[row].length; tile++) {
-                    if (this.boardMatrix[row][tile] == null) {
-                        break;
-                    } else if (tile == this.boardMatrix[row].length - 1) {
-                        count++;
-                        rows.add(row);
-                    }
-                }
-            }
-
-        }
     public void handleRowCleanup() {
-        //Go through each row in the matrix. Check if row is full
-        //store the row it is in an array
-        //sort that array from greatest to least (bottom to top)
-
-        //remove all of the blocks in that array, set the whole row to undefined
-
-
-        //loop through from the bottom to next highest
-        //check if the row above the row we started from is full, (peak into the array)
-        //if it is, then set tiledown to + this.tile_height * x (where x is the number of consecutive full arrays)
-        //push the array down to currentRow + x rows (remmeber concurrent)
-        //inside each row of the array, make sure you change the this.tileHeight to be aligned with the matrix
-        //so if you moved it two rows down, Block.yPosition += x * this.tile_height
-
         ArrayList<Integer> rowsFilled = new ArrayList<>();
 
         //Here we are adding all full rows
@@ -119,8 +87,6 @@ public class BoardLogic {
                 this.boardMatrix[rowsFilled.get(row)][tile] = null;
             }
         }
-
-
 
 
         rowsFilled.sort(new Comparator<Integer>() {
@@ -155,5 +121,9 @@ public class BoardLogic {
                 }
             }
         }
+    }
+
+    public int[] vectorizePoint(Block block) {
+            return new int[]{this.getMatrixY(block.Y_POSITION), this.getMatrixX(block.X_POSITION)};
     }
 }
