@@ -139,7 +139,20 @@ public abstract class PieceAbstraction {
         //Making a copy incase rotation doesnt work out somewhere
         //implicilty this is the type for which we copy although we abstractly define it as PieceAbstraction type
 
+        //check left and right bounds
+        for (Block block : this.pieceConstructed.blockContainer){
+            if (block.X_POSITION + this.board.TILE_WIDTH > this.board.RIGHT_MARGIN){
+                return;
+            }
+            if (block.X_POSITION - this.board.TILE_WIDTH < this.board.LEFT_MARGIN){
+                return;
+            }
+        }
+
+
+
         final TetrisPiece originalPiece = new TetrisPiece(this.pieceConstructed.amountOfBlocks, this.pieceConstructed.blockContainer, this.pieceConstructed.color);
+
 
         for (Block block : this.pieceConstructed.blockContainer){
             final int[] blockVector = this.board.boardLogic.vectorizePoint(block);
@@ -155,6 +168,7 @@ public abstract class PieceAbstraction {
             if (!this.matrixSpaceAvailable(finalVector)){
                 this.pieceConstructed = originalPiece;
                 return;
+
             }
 
             int canvasY = finalVector[0] * this.board.TILE_HEIGHT;
