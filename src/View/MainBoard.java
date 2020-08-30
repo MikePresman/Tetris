@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class MainBoard {
     public Pane canvas;
@@ -18,16 +20,20 @@ public class MainBoard {
     private int BOARD_WIDTH = 250; //keep this divisble by 10 nicely
     public final int TILE_WIDTH = BOARD_WIDTH / 10;
     public final int TILE_HEIGHT = BOARD_HEIGHT / 16;
-
-    
     public final int LEFT_MARGIN = 0;
-    public final int RIGHT_MARGIN = BOARD_WIDTH - TILE_WIDTH;
-    public final int BOTTOM_MARGIN = BOARD_HEIGHT - TILE_HEIGHT;
+    public final int RIGHT_MARGIN = BOARD_WIDTH;
+    public final int BOTTOM_MARGIN = BOARD_HEIGHT;
 
     public PieceAbstraction livePiece = null;
     public final ArrayList<Character> VALID_KEYS = new ArrayList<>(){{ add('W'); add('A'); add('S'); add('D'); } };
+    private boolean firstSelectedPiece = false;
+    private PieceAbstraction nextPiece;
 
     public BoardLogic boardLogic;
+
+
+    private MainBoard thisBoard = this;
+    private int[] lastTwoPieces = {-1, -1};
 
 
     public MainBoard(Pane canvas) {
@@ -133,5 +139,44 @@ public class MainBoard {
             return;
         }
 
+    }
+
+    public PieceAbstraction getPiece(){
+        HashMap<Integer, PieceAbstraction> pieces = new HashMap<>(){
+            {
+                put(1, new LeftLPiece(thisBoard));
+                put(2, new RightLPiece(thisBoard));
+                put(3, new SquarePiece(thisBoard));
+                put(4, new RightZPiece(thisBoard));
+                put(5, new LeftZPiece(thisBoard));
+                put(6, new TPiece(thisBoard));
+                put(7, new StickPiece(thisBoard));
+            }
+        };
+
+        //lastTwoPieces is empty
+        if (this.lastTwoPieces[1] == -1){
+            Random ran = new Random();
+            int RANDOM_NUM =  ran.nextInt((7-1)+1)+1;
+            this.lastTwoPieces[1] = RANDOM_NUM;// [-1, x]
+            return pieces.get(RANDOM_NUM);
+        }
+
+        Random ran = new Random();
+        int RANDOM_NUM = 0;
+        do{
+            RANDOM_NUM = ran.nextInt((7-1)+1)+1;
+        }while (this.lastTwoPieces[0] == RANDOM_NUM || this.lastTwoPieces[1] == RANDOM_NUM);
+
+
+        //lastTwoPieces only has one piece
+        if (this.lastTwoPieces[0] == -1){
+            this.lastTwoPieces[0] = RANDOM_NUM;
+            return pieces.get(RANDOM_NUM);
+        }else{ //if both spaces are full
+            this.lastTwoPieces[1] = this.lastTwoPieces[0];
+            this.lastTwoPieces[0] = RANDOM_NUM;
+            return pieces.get(RANDOM_NUM);
+        }
     }
 }

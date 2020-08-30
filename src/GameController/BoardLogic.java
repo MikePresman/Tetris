@@ -38,7 +38,7 @@ public class BoardLogic {
                 int matrixX = this.getMatrixX(piece.pieceConstructed.blockContainer.get(i).X_POSITION);
                 boardMatrix[matrixY][matrixX] = piece.pieceConstructed.blockContainer.get(i);
             }
-            printMatrix(this.boardMatrix);
+            //printMatrix(this.boardMatrix);
 
         }
 

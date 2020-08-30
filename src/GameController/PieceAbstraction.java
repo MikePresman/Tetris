@@ -72,7 +72,7 @@ public abstract class PieceAbstraction {
     private void rightMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if (block.X_POSITION + this.board.TILE_WIDTH > this.board.RIGHT_MARGIN){
+            if (block.X_POSITION + this.board.TILE_WIDTH >= this.board.RIGHT_MARGIN){
                 return;
             }
         }
@@ -140,16 +140,20 @@ public abstract class PieceAbstraction {
         //implicilty this is the type for which we copy although we abstractly define it as PieceAbstraction type
 
         //check left and right bounds
+
+        //TODO : fix this it doesn't work exactly as intended
+        /*
         for (Block block : this.pieceConstructed.blockContainer){
             if (block.X_POSITION + this.board.TILE_WIDTH > this.board.RIGHT_MARGIN){
                 return;
             }
             if (block.X_POSITION - this.board.TILE_WIDTH < this.board.LEFT_MARGIN){
+                System.out.println(this.board.LEFT_MARGIN);
+                System.out.println(block.X_POSITION);
                 return;
             }
         }
-
-
+*/
 
         final TetrisPiece originalPiece = new TetrisPiece(this.pieceConstructed.amountOfBlocks, this.pieceConstructed.blockContainer, this.pieceConstructed.color);
 
@@ -166,15 +170,25 @@ public abstract class PieceAbstraction {
             final int[] finalVector = {axisOfRotationBlockVector[0] + dotProduct[0], axisOfRotationBlockVector[1] + dotProduct[1]};
 
             if (!this.matrixSpaceAvailable(finalVector)){
+                System.out.println("HERE?");
                 this.pieceConstructed = originalPiece;
                 return;
-
             }
 
             int canvasY = finalVector[0] * this.board.TILE_HEIGHT;
             int canvasX = finalVector[1] * this.board.TILE_WIDTH;
 
+            System.out.println(block.COLOR);
+            System.out.println(block.X_POSITION);
+            System.out.println(this.board.RIGHT_MARGIN);
+
+
+
+
+
+
             if (canvasY > this.board.BOTTOM_MARGIN || canvasX < 0 || canvasX > this.board.RIGHT_MARGIN){
+                System.out.println("Here");
                 this.pieceConstructed = originalPiece;
                 return;
             }
@@ -185,6 +199,7 @@ public abstract class PieceAbstraction {
         }
 
 
+        System.out.println("x0x0x0x0x0x0x0x0x0x0x");
         this.board.drawBoard();
     }
 
