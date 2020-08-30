@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,11 +76,36 @@ public class MainBoard {
                 yPosition += TILE_HEIGHT;
             }
 
+            //nextPieceArena
+            nextPieceArena();
+
             drawPiece();
             drawBlocksSet();
 
         });
     }
+
+    public void nextPieceArena(){
+          //Drawing arena space
+          Rectangle r = new Rectangle(BOARD_WIDTH, 0, 400 - BOARD_WIDTH, BOARD_HEIGHT);
+          r.setFill(Color.BLACK);
+          r.setStroke(Color.WHITE);
+          this.canvas.getChildren().add(r);
+
+          //nextPiecePosition
+            for (Block block : this.nextPiece.pieceConstructed.blockContainer){
+                double xCenter = r.getX() + r.getX() / 4;
+                double yCenter = r.getY() + r.getY() / 4;
+                Rectangle nextPiece = new Rectangle(r.getX() / 1.2 + block.X_POSITION, block.Y_POSITION + 15,block.WIDTH,block.HEIGHT);
+                nextPiece.setFill(block.COLOR);
+                nextPiece.setStroke(Color.WHITE);
+                this.canvas.getChildren().add(nextPiece);
+        }
+
+
+
+    }
+
 
     public void drawBlocksSet(){
         for (int row = 0; row < this.boardLogic.boardMatrix.length; row++){

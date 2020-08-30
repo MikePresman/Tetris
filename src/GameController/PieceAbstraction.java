@@ -144,15 +144,12 @@ public abstract class PieceAbstraction {
 
         //check left and right bounds
 
-        //TODO : fix this it doesn't work exactly as intended
 
         for (Block block : this.pieceConstructed.blockContainer){
             if (block.X_POSITION + this.board.TILE_WIDTH > this.board.RIGHT_MARGIN){
                 return;
             }
             if (block.X_POSITION - this.board.TILE_WIDTH < this.board.LEFT_MARGIN){
-                System.out.println(this.board.LEFT_MARGIN);
-                System.out.println(block.X_POSITION);
                 return;
             }
         }
