@@ -21,16 +21,15 @@ public class MainBoard {
     public final int TILE_WIDTH = BOARD_WIDTH / 10;
     public final int TILE_HEIGHT = BOARD_HEIGHT / 16;
     public final int LEFT_MARGIN = 0;
-    public final int RIGHT_MARGIN = BOARD_WIDTH;
-    public final int BOTTOM_MARGIN = BOARD_HEIGHT;
+    public final int RIGHT_MARGIN = BOARD_WIDTH - TILE_WIDTH;
+    public final int BOTTOM_MARGIN = BOARD_HEIGHT - TILE_HEIGHT;
+    public BoardLogic boardLogic;
+
 
     public PieceAbstraction livePiece = null;
     public final ArrayList<Character> VALID_KEYS = new ArrayList<>(){{ add('W'); add('A'); add('S'); add('D'); } };
     private boolean firstSelectedPiece = false;
     private PieceAbstraction nextPiece;
-
-    public BoardLogic boardLogic;
-
 
     private MainBoard thisBoard = this;
     private int[] lastTwoPieces = {-1, -1};
@@ -109,36 +108,32 @@ public class MainBoard {
 
     public void update(){
         if (this.livePiece == null){
-            this.livePiece = new TPiece(this);
+            PieceAbstraction piece;
+            if (!this.firstSelectedPiece){
+                piece = this.getPiece();
+            }else{
+                piece = this.nextPiece;
+            }
+
+            this.livePiece = piece;
+            this.firstSelectedPiece = true;
+            this.nextPiece = this.getPiece();
+
             drawBoard();
             return;
+        }else {
+
+            if (!this.livePiece.hitBottom)
+                this.livePiece.updateBoardPosition();
+
+
+            if (this.livePiece.hitBottom) {
+                this.boardLogic.addPieceToBoard(this.livePiece);
+                this.boardLogic.handleRowCleanup();
+                this.livePiece = null;
+                return;
+            }
         }
-
-
-        //TODO upcoming pieces
-        //TODO random
-
-        //TODO
-        /*add later for random pieces
-          if (!this.firstPieceSelected) {
-        piece = this.getPiece();
-      } else {
-        piece = this.nextPiece;
-      }
-         */
-
-
-        if (!this.livePiece.hitBottom)
-            this.livePiece.updateBoardPosition();
-
-
-        if (this.livePiece.hitBottom){
-            this.boardLogic.addPieceToBoard(this.livePiece);
-            this.boardLogic.handleRowCleanup();
-            this.livePiece = null;
-            return;
-        }
-
     }
 
     public PieceAbstraction getPiece(){

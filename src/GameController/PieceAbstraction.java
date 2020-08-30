@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class PieceAbstraction {
     public TetrisPiece pieceConstructed;
@@ -72,7 +73,7 @@ public abstract class PieceAbstraction {
     private void rightMovement(){
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
-            if (block.X_POSITION + this.board.TILE_WIDTH >= this.board.RIGHT_MARGIN){
+            if (block.X_POSITION + this.board.TILE_WIDTH > this.board.RIGHT_MARGIN){
                 return;
             }
         }
@@ -99,6 +100,8 @@ public abstract class PieceAbstraction {
     }
 
     public void downMovement(){
+
+
         //Bounds check
         for (Block block : this.pieceConstructed.blockContainer){
             if (block.Y_POSITION + this.board.TILE_HEIGHT > this.board.BOTTOM_MARGIN){
@@ -142,7 +145,7 @@ public abstract class PieceAbstraction {
         //check left and right bounds
 
         //TODO : fix this it doesn't work exactly as intended
-        /*
+
         for (Block block : this.pieceConstructed.blockContainer){
             if (block.X_POSITION + this.board.TILE_WIDTH > this.board.RIGHT_MARGIN){
                 return;
@@ -153,10 +156,11 @@ public abstract class PieceAbstraction {
                 return;
             }
         }
-*/
+
+
+
 
         final TetrisPiece originalPiece = new TetrisPiece(this.pieceConstructed.amountOfBlocks, this.pieceConstructed.blockContainer, this.pieceConstructed.color);
-
 
         for (Block block : this.pieceConstructed.blockContainer){
             final int[] blockVector = this.board.boardLogic.vectorizePoint(block);
@@ -170,7 +174,6 @@ public abstract class PieceAbstraction {
             final int[] finalVector = {axisOfRotationBlockVector[0] + dotProduct[0], axisOfRotationBlockVector[1] + dotProduct[1]};
 
             if (!this.matrixSpaceAvailable(finalVector)){
-                System.out.println("HERE?");
                 this.pieceConstructed = originalPiece;
                 return;
             }
@@ -178,17 +181,7 @@ public abstract class PieceAbstraction {
             int canvasY = finalVector[0] * this.board.TILE_HEIGHT;
             int canvasX = finalVector[1] * this.board.TILE_WIDTH;
 
-            System.out.println(block.COLOR);
-            System.out.println(block.X_POSITION);
-            System.out.println(this.board.RIGHT_MARGIN);
-
-
-
-
-
-
             if (canvasY > this.board.BOTTOM_MARGIN || canvasX < 0 || canvasX > this.board.RIGHT_MARGIN){
-                System.out.println("Here");
                 this.pieceConstructed = originalPiece;
                 return;
             }
@@ -196,10 +189,8 @@ public abstract class PieceAbstraction {
             block.X_POSITION = canvasX;
             block.Y_POSITION = canvasY;
 
+
         }
-
-
-        System.out.println("x0x0x0x0x0x0x0x0x0x0x");
         this.board.drawBoard();
     }
 

@@ -21,11 +21,11 @@ public final class TPiece extends PieceAbstraction {
         int tHeight = this.board.TILE_HEIGHT;
         Color c = this.color;
 
-        this.topBlock = new Block(0, tWidth * 4, tWidth, tHeight, Color.RED);
+        this.topBlock = new Block(0, tWidth * 4, tWidth, tHeight, c);
 
-        this.bottomLeftBlock = new Block(tHeight, tWidth * 3, tWidth, tHeight, Color.BLUE);
+        this.bottomLeftBlock = new Block(tHeight, tWidth * 3, tWidth, tHeight, c);
 
-        this.bottomCenterBlock = new Block(tHeight, tWidth * 4, tWidth, tHeight, Color.GREEN);
+        this.bottomCenterBlock = new Block(tHeight, tWidth * 4, tWidth, tHeight, c);
 
         this.bottomRightBlock =  new Block(tHeight, tWidth * 5, tWidth, tHeight, c);
 
