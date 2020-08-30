@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -34,6 +35,8 @@ public class Main extends Application {
         //might have to put this in a new thread in order access it after the fact
         Timer timer = new Timer();
         timer.schedule(new GameLoop(), 0, 500);
+
+        primaryStage.getIcons().add(new Image("file:icon.png"));
 
 
 
