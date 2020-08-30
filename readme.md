@@ -1,1 +1,1 @@
-![](./TetrisGif.gif)
+![](./Tetris.gif)
